@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.w3c.dom.ls.LSOutput;
 import ru.swamptea.telegramBot.config.BotConfig;
 
 
@@ -29,7 +30,7 @@ import static org.apache.commons.io.FileUtils.getFile;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 
-    final BotConfig config;
+    private final BotConfig config;
 
     public TelegramBot(BotConfig config){
         this.config = config;
@@ -101,16 +102,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     "https://thumbs.dreamstime.com/z/%D0%BA%D0%BE%D1%82-%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D1%8B%D0%B9-%D1%8F-%D1%82%D0%BE%D0%B3%D0%BE-%D1%87%D1%82%D0%BE%D0%B1%D1%8B-%D0%B0%D1%82%D0%B0%D0%BA%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-91003403.jpg"};
                     Random random = new Random();
                     int r = random.nextInt(catPhotos.length);
-                    try {
-                        URL url = new URL(catPhotos[r]);
-                        InputStream in = url.openStream();
-                        String path = "someFile.jpg";
-                        Files.copy(in, Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
-                        in.close();
-                        sendPhoto(chatId, path, "Meow! ^_^");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    sendPhoto(chatId, catPhotos[r], "Meow! ^_^");
                     break;
                 default:
                     sendMessage(chatId, "Sorry, I can't do it :(");
